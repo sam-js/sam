@@ -15,6 +15,4 @@ if (
   console.log('You are currently using minified code outside of NODE_ENV === \'production\'.')
 }
 
-export default {
-  createModel,
-}
+export { default as createModel } from './createModel'

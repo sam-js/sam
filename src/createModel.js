@@ -15,19 +15,12 @@ const nop = _ => undefined
 export default function createModel(container, state, nap = nop, initialStore, enhancer) {
   if (typeof enhancer !== 'undefined') {
     // TODO: Apply enhancer
-    return enhancer(createModel)(container, initialStore)
+    return enhancer(createModel)(container, state, nap, initialStore)
   }
 
   let listeners = []
   let store = initialStore
   let currentState = state(store)
-  saveSnapshot({}, store)
-
-
-  const loadSnapshot = i => {
-    store = getSnapshot(i)
-    updateState()
-  }
 
   const updateState = _ => {
     // TODO: Remove this
@@ -68,10 +61,6 @@ export default function createModel(container, state, nap = nop, initialStore, e
     store = container({ ...store }, dataset)
     console.log('Store after BLC: ', store)
 
-    // TODO: Move this to enhancer
-    // Save Store to TimeTravelStore
-    saveSnapshot(dataset, store)
-
     // Rebuild state
     currentState = state(store)
     console.log('New state:', currentState)
@@ -96,7 +85,5 @@ export default function createModel(container, state, nap = nop, initialStore, e
     subscribe,
     getState,
     replaceContainer,
-    // TODO: move this
-    loadSnapshot,
   }
 }
