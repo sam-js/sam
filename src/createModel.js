@@ -1,5 +1,4 @@
-// TODO: Move to enhancer
-import { saveSnapshot, getSnapshot } from './timeTravelStore.js' 
+const nop = _ => undefined
 
 /**
  * Creates a SAM Model stat holds the Store tree.
@@ -13,10 +12,7 @@ import { saveSnapshot, getSnapshot } from './timeTravelStore.js'
  * @returns {Model} A SAM model that lets you read the State, present data and
  * subscribe to changes.
  */
-
-const nop = _ => undefined
-
-export function createModel(container, state, nap = nop, initialStore, enhancer) {
+export default function createModel(container, state, nap = nop, initialStore, enhancer) {
   if (typeof enhancer !== 'undefined') {
     // TODO: Apply enhancer
     return enhancer(createModel)(container, initialStore)

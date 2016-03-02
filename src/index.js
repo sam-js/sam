@@ -1,23 +1,20 @@
-import React from 'react'
-import { render } from 'react-dom'
+import createModel from './createModel'
 
-import model from './model'
-import dispatch from './actions'
+/*
+ * This is a dummy function to check if the function name has been altered by minification.
+ * If the function has been minified and NODE_ENV !== 'production', warn the user.
+ * Shamelessly copied from Redux by Gunar
+ */
+function isCrushed() {}
 
-import App from './containers/App'
+if (
+  process.env.NODE_ENV !== 'production' &&
+  typeof isCrushed.name === 'string' &&
+  isCrushed.name !== 'isCrushed'
+) {
+  console.log('You are currently using minified code outside of NODE_ENV === \'production\'.')
+}
 
-import { subscribe } from './timeTravelStore'
-import timeTravelUI from './timeTravelUI'
-
-model.subscribe(state => {
-  console.log('View received new state', state)
-  render(
-    <App state={state} dispatch={dispatch(model.present)} />,
-      document.getElementById('root')
-  )
-})
-
-
-// TimeTravelUI
-subscribe(snapshots => timeTravelUI(snapshots))
-window.loadSnapshot = model.loadSnapshot
+export default {
+  createModel,
+}
