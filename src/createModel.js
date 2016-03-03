@@ -23,7 +23,6 @@ export default function createModel(container, state, nap = nop, initialStore, e
   let currentState = state(store)
 
   const updateState = _ => {
-    // TODO: Remove this
     // Rebuild state
     currentState = state(store)
     console.log('New state:', currentState)
@@ -46,9 +45,8 @@ export default function createModel(container, state, nap = nop, initialStore, e
   function subscribe(listener) {
     listeners.push(listener)
     // Send current state to new listener
-    // TODO: Remove this
+    // TODO: I believe ideally we should not neet to do this (Gunar)
     listener(currentState)
-
     return function unsubscribe() {
       const index = listeners.indexOf(listener)
       listeners.splice(index, 1)
@@ -56,25 +54,16 @@ export default function createModel(container, state, nap = nop, initialStore, e
   }
 
   function present(dataset = {}) {
-
     console.log('Present:', dataset)
     store = container({ ...store }, dataset)
     console.log('Store after BLC: ', store)
-
-    // Rebuild state
-    currentState = state(store)
-    console.log('New state:', currentState)
-
-    // Pub to listeners
-    listeners.forEach(listener => listener(currentState))
-
-    // Call nap
-    nap(currentState)(present)
-
+    updateState()
   }
 
-  // TODO: for HMR
-  function replaceContainer(nextContainer) {
+  function replaceStore(nextStore) {
+    console.log('replaceStore', nextStore)
+     store = { ...nextStore }
+     updateState()
   }
 
   // "INIT" present to run everything once
@@ -84,6 +73,6 @@ export default function createModel(container, state, nap = nop, initialStore, e
     present,
     subscribe,
     getState,
-    replaceContainer,
+    replaceStore,
   }
 }
