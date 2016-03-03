@@ -1,6 +1,6 @@
 {
   "name": "sam",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Lightweight framework for the SAM pattern",
   "main": "./lib/index.js",
   "scripts": {
