@@ -21,6 +21,8 @@ export default function createModel(container, state, nap = nop, initialStore, e
   let listeners = []
   let store = initialStore
   let currentState = state(store)
+  let currentContainer = container
+  let currentNap = nap
 
   const updateState = _ => {
     // Rebuild state
@@ -31,7 +33,7 @@ export default function createModel(container, state, nap = nop, initialStore, e
     listeners.forEach(listener => listener(currentState))
 
     // Call nap
-    nap(currentState)(present)
+    currentNap(currentState)(present)
   }
 
   function getState() {
@@ -55,7 +57,7 @@ export default function createModel(container, state, nap = nop, initialStore, e
 
   function present(dataset = {}) {
     console.log('Present:', dataset)
-    store = container({ ...store }, dataset)
+    store = currentContainer({ ...store }, dataset)
     console.log('Store after BLC: ', store)
     updateState()
   }
@@ -66,6 +68,18 @@ export default function createModel(container, state, nap = nop, initialStore, e
      updateState()
   }
 
+  function replaceContainer(nextContainer) {
+    console.log('replaceContainer')
+    currentContainer = nextContainer
+    updateState()
+  }
+
+  function replaceNap(nextNap) {
+    console.log('replaceNap')
+    currentNap = nextNap
+    updateState()
+  }
+
   // "INIT" present to run everything once
   present()
 
@@ -74,5 +88,7 @@ export default function createModel(container, state, nap = nop, initialStore, e
     subscribe,
     getState,
     replaceStore,
+    replaceContainer,
+    replaceNap,
   }
 }
