@@ -65,7 +65,7 @@ const initialStore = {
 
 // Input: Model
 // Output: Dispatch, i.e. a function which accepts an action and presents values to the model
-const actionCreator = present => action => {
+const createDispatch = present => action => {
   switch (action.type) {
     case 'INC':
       present({ increaseBy: 1 })
@@ -74,7 +74,7 @@ const actionCreator = present => action => {
 }
 
 const model = createModel(container, state, nap, initialStore)
-const dispatch = actionCreator(model.present)
+const dispatch = createDispatch(model.present)
 
 // You may render the View however you wish
 // e.g. with React
