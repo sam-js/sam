@@ -20,7 +20,11 @@ SAM is unapologetically driven by simplicity and challenges the complexity of fr
 
 [sam-devtools](https://github.com/sam-js/sam-devtools)
 
-## Simple example
+## Example
+
+Check the [working example with devtools](https://github.com/sam-js/sam-devtools/tree/master/examples/counter).
+
+## The gist
 
 Increases the counter by clicking **INC**. Launches when counter reaches 10.
 
