@@ -81,7 +81,12 @@ const model = createModel(container, state, nap, initialStore)
 const dispatch = createDispatch(model.present)
 
 // You may render the View however you wish
-// e.g. with React
+// e.g. with Vanilla JS
+model.subscribe(state => {
+   document.getElementById('counter').innerHTML = state.counter
+   document.getElementById('launched').style.visibility = state.hasLaunched ? 'visible' : 'hidden'
+})
+// or with React
 import React from 'react'
 import { render } from 'react-dom'
 model.subscribe(state => {
